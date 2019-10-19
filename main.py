@@ -38,7 +38,7 @@ WHERE
   moz_places.title LIKE ?
   or 
   moz_places.url LIKE ?
-ORDER BY moz_places.url
+ORDER BY length(moz_places.url), moz_places.url
 LIMIT ?
 """
     argument = event.get_argument().replace("%", "\\$%").replace("_", "\\$_") if event.get_argument() else ""
