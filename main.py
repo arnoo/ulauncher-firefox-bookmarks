@@ -1,6 +1,8 @@
 import os
 import sqlite3
 import configparser
+from shutil import copyfile
+import tempfile
 
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.client.EventListener import EventListener
@@ -23,7 +25,9 @@ class KeywordQueryEventListener(EventListener):
 
   def __init__(self):
     db_path = os.path.join(self.get_profile_path(), "places.sqlite")
-    self.db = sqlite3.connect(db_path)
+    db_copy_path = tempfile.gettempdir()+"/places.sqlite"
+    copyfile(db_path, db_copy_path)
+    self.db = sqlite3.connect(db_copy_path)
 
   def on_event(self, event, extension):
     items = []
